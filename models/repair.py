@@ -7,8 +7,9 @@ class Customer(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     phone = Column(String)
-    # Relasi One-to-Many [cite: 32]
-    jobs = relationship("RepairJob", back_populates="owner")
+    
+    # Relasi One-to-Many
+    jobs = relationship("RepairJob", back_populates="owner", cascade="all, delete-orphan")
 
 class RepairJob(Base):
     __tablename__ = "repair_jobs"
@@ -18,4 +19,5 @@ class RepairJob(Base):
     status = Column(String, default="Pending")
     cost = Column(Float)
     customer_id = Column(Integer, ForeignKey("customers.id"))
+    
     owner = relationship("Customer", back_populates="jobs")

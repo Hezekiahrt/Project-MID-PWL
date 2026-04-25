@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class RepairJobBase(BaseModel):
     device_name: str
@@ -12,17 +12,19 @@ class RepairJobCreate(RepairJobBase):
 
 class RepairJob(RepairJobBase):
     id: int
+    customer_id: int
     class Config:
         from_attributes = True
 
-class CustomerCreate(BaseModel):
+class CustomerBase(BaseModel):
     name: str
     phone: str
 
-class Customer(BaseModel):
+class CustomerCreate(CustomerBase):
+    pass
+
+class Customer(CustomerBase):
     id: int
-    name: str
-    phone: str
     jobs: List[RepairJob] = []
     class Config:
         from_attributes = True
